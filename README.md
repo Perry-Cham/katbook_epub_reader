@@ -336,7 +336,22 @@ class EpubReaderScreenState extends State<EpubReaderScreen> {
 }
 ```
 
-You can then import your reader and pass it an EPUB file. For example, for an EPUB hosted at a URL:
+The reader's built-in UI strings (tooltips, theme labels, etc.) are localised.
+Add the required delegates to your `MaterialApp` — **without them, all tooltips
+will display as "Menu"**.  So add this to your main.dart file. (Or wherever the entry point to your programme is):
+
+```dart
+import 'package:katbook_epub_reader/katbook_epub_reader.dart';
+
+MaterialApp(
+  localizationsDelegates: AppLocalizations.localizationsDelegates,
+  supportedLocales: AppLocalizations.supportedLocales,
+)
+```
+
+Currently supported locales: `en` (English), `fr` (Français), `zh` (中文).
+
+Finally you can import your reader and pass it an EPUB file. For example, for an EPUB hosted at a URL:
 
 ```dart
 class Reader extends StatelessWidget {
@@ -351,7 +366,7 @@ class Reader extends StatelessWidget {
 }
 ```
 
-`EpubReaderScreen` accepts three mutually exclusive source types — pass exactly one:
+The `KatBookEpubReader` widget and by extension `EpubReaderScreen` accepts three mutually exclusive source types — pass exactly one:
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -395,6 +410,7 @@ you a `ReadingPosition` object that can be serialised to JSON:
 EpubReaderScreen(
   url: myBookUrl,
   onPositionChanged: (position) async {
+    //or your preferred storage method
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('last_position', jsonEncode(position.toJson()));
   },
@@ -404,6 +420,26 @@ EpubReaderScreen(
 To restore it on next launch, pass an `initialPosition` directly to
 `KatbookEpubReader` (or call `controller.jumpToPosition(position)` after the
 book has loaded).
+
+
+### Persisting and restoring reading mode
+
+`onPositionChanged` fires whenever the user changes the reading mode, (scroll or paginated). Returns a `ReadingMode` object that can be serialised to JSON:
+
+```dart
+EpubReaderScreen(
+  url: myBookUrl,
+  onReadingModeChanged: (mode) async {
+    //or your preferred storage method
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('last_reading_mode', jsonEncode(mode.toJson()));
+  },
+)
+```
+
+To restore it on next launch, pass an `initialReadingMode` to
+`KatbookEpubReader` 
+
 
 ### Tracking progress
 
@@ -434,26 +470,7 @@ EpubReaderScreen(
 )
 ```
 
-### Internationalisation
-
-The reader's built-in UI strings (tooltips, theme labels, etc.) are localised.
-Add the required delegates to your `MaterialApp` — **without them, all tooltips
-will display as "Menu"**:
-
-```dart
-import 'package:katbook_epub_reader/katbook_epub_reader.dart';
-
-MaterialApp(
-  localizationsDelegates: AppLocalizations.localizationsDelegates,
-  supportedLocales: AppLocalizations.supportedLocales,
-  home: EpubReaderScreen(url: myBookUrl),
-)
-```
-
-Currently supported locales: `en` (English), `fr` (Français), `zh` (中文).
-
 ---
-
 ### Paramters 
 
 The full list of paramters taken by the KatBookEpub reader Widget
@@ -474,7 +491,7 @@ The full list of paramters taken by the KatBookEpub reader Widget
   /// Builder for a custom app bar.
   final PreferredSizeWidget Function(BuildContext context, KatbookEpubReaderState state)? appBarBuilder;
 
-  /// Called when the reading position changes.
+  /// Called when the reading position changes. 
   final void Function(ReadingPosition position)? onPositionChanged;
 
   /// Called when the current chapter changes.
@@ -483,7 +500,7 @@ The full list of paramters taken by the KatBookEpub reader Widget
   /// Called when the progress percentage changes.
   final void Function(double progress)? onProgressChanged;
 
-  /// Called when the reading mode changes.
+  /// Called when the reading mode changes. 
   final void Function(ReadingMode mode)? onReadingModeChanged;
 
   /// The initial reading mode (scroll or page).
