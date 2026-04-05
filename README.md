@@ -49,7 +49,7 @@ import 'package:katbook_epub_reader/katbook_epub_reader.dart';
 
 ## Getting Started
 
-Create a file to hold your reader and paste in the boilerplate code below:
+To quicly get started create a file to hold your reader and paste in the boilerplate code below:
 
 ```dart
 import 'dart:typed_data';
