@@ -1,4 +1,4 @@
-library katbook_epub_reader;
+library;
 
 // Models
 export 'src/models/chapter_node.dart';

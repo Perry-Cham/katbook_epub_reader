@@ -94,3 +94,15 @@ pubspec.lock
 !CHANGELOG.md
 !README.md
 !LICENSE
+
+# Example platform files
+example/.idea/
+example/android/
+example/ios/
+example/linux/
+example/macos/
+example/windows/
+example/web/
+example/katbook_epub_reader_example.iml
+example/analysis_options.yaml
+example/.metadata

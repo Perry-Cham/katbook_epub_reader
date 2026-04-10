@@ -585,7 +585,7 @@ class EpubContentRenderer extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 4.0).add(margin),
+      padding: const EdgeInsets.symmetric(vertical: 4.0).add(margin),
       decoration: cssBackgroundColor != null ? BoxDecoration(
         color: cssBackgroundColor,
         borderRadius: BorderRadius.circular(8),

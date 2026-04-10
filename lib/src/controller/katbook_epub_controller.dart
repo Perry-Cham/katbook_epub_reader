@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:epubx_kuebiko/epubx_kuebiko.dart';
 import 'package:flutter/foundation.dart';

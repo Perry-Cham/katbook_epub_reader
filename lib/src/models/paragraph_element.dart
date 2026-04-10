@@ -5,6 +5,14 @@ import 'package:html/dom.dart' as dom;
 /// Each paragraph contains the HTML element, its chapter association,
 /// and metadata needed for rendering and navigation.
 class ParagraphElement {
+
+  const ParagraphElement({
+    required this.element,
+    required this.chapterIndex,
+    required this.absoluteIndex,
+    this.isChapterStart = false,
+    this.chapterTitle,
+  });
   /// The HTML element containing the paragraph content.
   final dom.Element element;
 
@@ -19,14 +27,6 @@ class ParagraphElement {
 
   /// The chapter title (if this is a chapter start).
   final String? chapterTitle;
-
-  const ParagraphElement({
-    required this.element,
-    required this.chapterIndex,
-    required this.absoluteIndex,
-    this.isChapterStart = false,
-    this.chapterTitle,
-  });
 
   /// Get the outer HTML of this element.
   String get outerHtml => element.outerHtml;

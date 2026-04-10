@@ -5,10 +5,10 @@ import 'package:flutter/foundation.dart';
 
 /// Parses CSS from EPUB files and provides style lookup.
 class EpubCssParser {
-  final Map<String, Map<String, String>> _classStyles = {};
-  final Map<String, Map<String, String>> _tagStyles = {};
 
   EpubCssParser();
+  final Map<String, Map<String, String>> _classStyles = {};
+  final Map<String, Map<String, String>> _tagStyles = {};
 
   /// Extract and parse all CSS from an EPUB book.
   void parseFromBook(EpubBook book) {

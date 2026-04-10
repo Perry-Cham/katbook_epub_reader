@@ -7,6 +7,34 @@
 ///
 /// Positions can be serialized to JSON for persistent storage.
 class ReadingPosition {
+
+  const ReadingPosition({
+    required this.chapterIndex,
+    required this.paragraphIndex,
+    this.chapterTitle,
+    required this.totalParagraphs,
+    this.paragraphOffset = 0.0,
+  });
+
+  /// Create from JSON.
+  factory ReadingPosition.fromJson(Map<String, dynamic> json) {
+    return ReadingPosition(
+      chapterIndex: json['chapterIndex'] as int? ?? 0,
+      paragraphIndex: json['paragraphIndex'] as int? ?? 0,
+      chapterTitle: json['chapterTitle'] as String?,
+      totalParagraphs: json['totalParagraphs'] as int? ?? 0,
+      paragraphOffset: (json['paragraphOffset'] as num?)?.toDouble() ?? 0.0,
+    );
+  }
+
+  /// Create an initial position (start of book).
+  factory ReadingPosition.initial({int totalParagraphs = 0}) {
+    return ReadingPosition(
+      chapterIndex: 0,
+      paragraphIndex: 0,
+      totalParagraphs: totalParagraphs,
+    );
+  }
   /// Index of the current chapter in the flat chapter list.
   final int chapterIndex;
 
@@ -21,14 +49,6 @@ class ReadingPosition {
 
   /// Scroll offset within the current paragraph (0.0 to 1.0).
   final double paragraphOffset;
-
-  const ReadingPosition({
-    required this.chapterIndex,
-    required this.paragraphIndex,
-    this.chapterTitle,
-    required this.totalParagraphs,
-    this.paragraphOffset = 0.0,
-  });
 
   /// Calculate the reading progress as a percentage (0-100).
   double get progressPercent {
@@ -70,26 +90,6 @@ class ReadingPosition {
       'totalParagraphs': totalParagraphs,
       'paragraphOffset': paragraphOffset,
     };
-  }
-
-  /// Create from JSON.
-  factory ReadingPosition.fromJson(Map<String, dynamic> json) {
-    return ReadingPosition(
-      chapterIndex: json['chapterIndex'] as int? ?? 0,
-      paragraphIndex: json['paragraphIndex'] as int? ?? 0,
-      chapterTitle: json['chapterTitle'] as String?,
-      totalParagraphs: json['totalParagraphs'] as int? ?? 0,
-      paragraphOffset: (json['paragraphOffset'] as num?)?.toDouble() ?? 0.0,
-    );
-  }
-
-  /// Create an initial position (start of book).
-  factory ReadingPosition.initial({int totalParagraphs = 0}) {
-    return ReadingPosition(
-      chapterIndex: 0,
-      paragraphIndex: 0,
-      totalParagraphs: totalParagraphs,
-    );
   }
 
   @override

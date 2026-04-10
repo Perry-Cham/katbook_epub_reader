@@ -8,19 +8,21 @@ import 'html_parser.dart';
 
 /// Result of content parsing.
 class ParseResult {
-  final List<ChapterNode> tableOfContents;
-  final List<ChapterNode> flatChapters;
-  final List<ParagraphElement> paragraphs;
 
   const ParseResult({
     required this.tableOfContents,
     required this.flatChapters,
     required this.paragraphs,
   });
+  final List<ChapterNode> tableOfContents;
+  final List<ChapterNode> flatChapters;
+  final List<ParagraphElement> paragraphs;
 }
 
 /// Parses EPUB content following chapter hierarchy.
 class EpubContentParser {
+
+  EpubContentParser(this._book);
   final EpubBook _book;
   final List<ChapterNode> _tableOfContents = [];
   final List<ChapterNode> _flatChapters = [];
@@ -28,8 +30,6 @@ class EpubContentParser {
   
   // Cache parsed HTML files
   final Map<String, List<dom.Element>> _parsedFiles = {};
-
-  EpubContentParser(this._book);
 
   /// Parse the entire EPUB content.
   ParseResult parse() {
@@ -127,7 +127,7 @@ class EpubContentParser {
     
     // Add a front matter chapter if we found content
     if (paragraphIndex > 0) {
-      final frontMatterNode = ChapterNode(
+      const frontMatterNode = ChapterNode(
         title: 'Couverture',
         startIndex: 0,
         depth: 0,
@@ -416,13 +416,13 @@ class EpubContentParser {
 
 /// Internal result class for chapter processing.
 class _ChapterResult {
-  final ChapterNode node;
-  final int nextChapterIndex;
-  final int nextParagraphIndex;
 
   const _ChapterResult({
     required this.node,
     required this.nextChapterIndex,
     required this.nextParagraphIndex,
   });
+  final ChapterNode node;
+  final int nextChapterIndex;
+  final int nextParagraphIndex;
 }

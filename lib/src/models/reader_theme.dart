@@ -19,6 +19,16 @@ enum ReaderTheme {
 
 /// Configuration for a reader theme.
 class ReaderThemeData {
+
+  const ReaderThemeData({
+    required this.backgroundColor,
+    required this.textColor,
+    required this.accentColor,
+    required this.secondaryTextColor,
+    required this.linkColor,
+    required this.appBarColor,
+    required this.displayName,
+  });
   /// Background color of the reader
   final Color backgroundColor;
 
@@ -39,16 +49,6 @@ class ReaderThemeData {
 
   /// Display name for the theme
   final String displayName;
-
-  const ReaderThemeData({
-    required this.backgroundColor,
-    required this.textColor,
-    required this.accentColor,
-    required this.secondaryTextColor,
-    required this.linkColor,
-    required this.appBarColor,
-    required this.displayName,
-  });
 
   /// Whether this is a dark theme
   bool get isDark => backgroundColor.computeLuminance() < 0.5;

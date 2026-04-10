@@ -3,6 +3,30 @@
 /// This class supports arbitrary nesting depth, allowing proper representation
 /// of complex EPUB structures with chapters, subchapters, sub-subchapters, etc.
 class ChapterNode {
+
+  const ChapterNode({
+    required this.title,
+    required this.startIndex,
+    this.depth = 0,
+    this.children = const [],
+    this.contentFileName,
+    this.anchor,
+  });
+
+  /// Create from JSON.
+  factory ChapterNode.fromJson(Map<String, dynamic> json) {
+    return ChapterNode(
+      title: json['title'] as String,
+      startIndex: json['startIndex'] as int,
+      depth: json['depth'] as int? ?? 0,
+      children: (json['children'] as List<dynamic>?)
+              ?.map((c) => ChapterNode.fromJson(c as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      contentFileName: json['contentFileName'] as String?,
+      anchor: json['anchor'] as String?,
+    );
+  }
   /// The title of this chapter.
   final String title;
 
@@ -20,15 +44,6 @@ class ChapterNode {
 
   /// The anchor within the content file (for internal use).
   final String? anchor;
-
-  const ChapterNode({
-    required this.title,
-    required this.startIndex,
-    this.depth = 0,
-    this.children = const [],
-    this.contentFileName,
-    this.anchor,
-  });
 
   /// Whether this chapter has subchapters.
   bool get hasChildren => children.isNotEmpty;
@@ -65,21 +80,6 @@ class ChapterNode {
       if (contentFileName != null) 'contentFileName': contentFileName,
       if (anchor != null) 'anchor': anchor,
     };
-  }
-
-  /// Create from JSON.
-  factory ChapterNode.fromJson(Map<String, dynamic> json) {
-    return ChapterNode(
-      title: json['title'] as String,
-      startIndex: json['startIndex'] as int,
-      depth: json['depth'] as int? ?? 0,
-      children: (json['children'] as List<dynamic>?)
-              ?.map((c) => ChapterNode.fromJson(c as Map<String, dynamic>))
-              .toList() ??
-          const [],
-      contentFileName: json['contentFileName'] as String?,
-      anchor: json['anchor'] as String?,
-    );
   }
 
   @override
